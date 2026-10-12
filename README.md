@@ -2,17 +2,17 @@
 
 [![Tests](https://img.shields.io/badge/tests-local%20pytest-blue)](#testing-and-metrics) ![Python](https://img.shields.io/badge/Python-3.11%2B-3776ab) ![Stage](https://img.shields.io/badge/stage-local%20MVP-087c74) ![Data](https://img.shields.io/badge/demo-synthetic%20only-777)
 
-> **Evidence-first enterprise research assistant** built as an end-to-end product-manager / engineering portfolio project. Users can import public documents, break a broad research request into five analyzable tasks, retrieve attributable evidence, generate a cited report, model a revenue scenario, and evaluate retrieval quality against a labeled benchmark. **Runs offline without an API key.**
+> **Evidence-first enterprise research assistant** built as an end-to-end product-manager / engineering portfolio project. Users can import public documents, choose among three business workflows (consumer brand research, supplier procurement, medical technology), break a request into five scenario-specific steps, retrieve attributable evidence, generate a cited report, run deterministic business calculators, and evaluate retrieval against small labeled synthetic benchmarks. **Runs offline without an API key.**
 
 **中文简介：** 面向企业研究人员的可追溯 AI Agent 原型：研究任务拆解 → 本地知识库检索 → 来源核验与缺口提示 → 报告生成 → 检索评估。支持中文/英文混合内容。
 
 ## ✨ Product walkthrough
 
-1. Click **加载合成演示资料** (load six explicitly fictional company documents).
-2. Ask: `分析 NeuroBridge Medical 的技术、市场、竞品、财务与投资风险，列出尽调问题。`
+1. Select **消费品牌 / 企业采购 / 医疗科技**, then click **加载合成演示资料** (replaces prior synthetic demo files, but retains manually uploaded local files).
+2. Run the pre-filled research question for a fictional consumer brand, fictional procurement operation or fictional medical technology company.
 3. Review five planned research dimensions, source-indexed extracts `[S1]`… and evidence gaps.
-4. Export a Markdown report. Adjust a what-if revenue calculation using the deterministic tool.
-5. Open the **质量评估** tab to run labeled Hit@3 / MRR retrieval benchmarks.
+4. Export a Markdown report. Use scenario-specific tools for consumer funnel or supplier constraints; market revenue calculator remains available.
+5. Open the **质量评估** tab to run each synthetic scenario's labeled Hit@3 / MRR retrieval benchmark.
 
 ![Product screenshot](docs/screenshot.webp)
 
@@ -74,12 +74,15 @@ flowchart LR
 |---|---|---|
 | GET | `/health` | Health check |
 | GET | `/api/documents` | List local sources |
-| POST | `/api/demo/load` | Load six synthetic documents |
+| GET | `/api/scenarios` | List available business demo scenarios |
+| POST | `/api/demo/load?scenario=consumer` | Load a synthetic scenario corpus (consumer / procurement / healthcare) |
 | POST | `/api/documents/upload` | Upload PDF/DOCX/TXT/MD/CSV; 8 MB max |
 | POST | `/api/research` | Run 5-step research workflow |
 | GET | `/api/runs/{run_id}/download` | Export cited Markdown report |
 | POST | `/api/tools/revenue` | Calculate scenario revenue from explicit input |
-| POST | `/api/evaluate/demo` | Measure retrieval on 10 labeled cases |
+| POST | `/api/tools/funnel` | Calculate consumer conversion / ad spend per order |
+| POST | `/api/tools/supplier-compare` | Compare supplier landed quote / hard constraints |
+| POST | `/api/evaluate/demo?scenario=consumer` | Retrieval benchmark (10 healthcare / 6 consumer / 6 procurement synthetic cases) |
 | GET | `/docs` | Interactive OpenAPI API docs |
 
 Example:
@@ -121,3 +124,8 @@ MIT — see [LICENSE](LICENSE).
 ### Windows quick start (中文)
 
 After installing Python 3.11+, double-click **`start_windows.bat`**. It creates a local virtual environment, installs the requirements, and opens the app on `http://127.0.0.1:8000`. See the [Chinese quick-start guide](docs/中文使用指南.md).
+
+
+## Cross-industry v0.2 update (2026-10-13)
+
+Added two independent fictional verticals beyond medical devices: **consumer brand competitive/growth research** and **enterprise purchasing supplier comparison**. Each has a distinct research plan and provenance-linked documents. The UI switches demo corpora, runs a matching small benchmark, and includes simple deterministic business calculators. Regression suite: **18 tests locally passed** during development (consult live GitHub Actions for current remote CI). All results describe synthetic fixtures, *not* validated user outcomes. **No autonomous tool selection, production deployment or genuine customer research is claimed.** See [scope and product validation plan](docs/cross-industry-v0.2.md).
