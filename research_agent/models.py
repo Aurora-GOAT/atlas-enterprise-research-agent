@@ -32,6 +32,7 @@ class ResearchRequest(BaseModel):
     query: str = Field(min_length=4, max_length=600)
     use_llm: bool = False
     top_k: int = Field(default=3, ge=1, le=6)
+    scenario: str = "healthcare"
 
 
 class ResearchResult(BaseModel):
