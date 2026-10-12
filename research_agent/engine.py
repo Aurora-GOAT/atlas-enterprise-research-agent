@@ -22,9 +22,9 @@ def _safe_excerpt(text: str) -> str:
 
 
 def build_research(query: str, documents: list[Document], top_k: int = 3,
-                   use_llm: bool = False) -> ResearchResult:
+                   use_llm: bool = False, scenario: str = "healthcare") -> ResearchResult:
     retriever = LocalRetriever(documents)
-    plan = make_plan(query)
+    plan = make_plan(query, scenario)
     cited: list[Evidence] = []
     lookup: dict[tuple[str, int], str] = {}
     rows: list[tuple[str, list[str]]] = []
@@ -47,6 +47,7 @@ def build_research(query: str, documents: list[Document], top_k: int = 3,
         gaps.append("知识库为空；请上传公开文档或加载合成演示数据。")
     warnings = [
         "该报告是基于已导入文档的检索整理，不代表独立事实核查或投资建议。",
+        "演示语料均为虚构；选择的场景决定任务模板，不意味着自主AI规划。",
         "相似度是文本相关性信号，不是证据真实性或结论置信度。",
         "上传的文档可能包含错误信息；重要数字、监管状态、最新动态必须回到原始来源核实。",
     ]
