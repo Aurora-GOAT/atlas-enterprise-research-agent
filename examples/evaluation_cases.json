@@ -1,0 +1,12 @@
+[
+  {"query":"NeuroBridge 公司定位 创业团队 目标科室", "expected_documents":["DEMO-company"]},
+  {"query":"目标医院600家 潜在客户市场 访谈", "expected_documents":["DEMO-market"]},
+  {"query":"神经调控治疗计划软件 工程样机 临床疗效 注册", "expected_documents":["DEMO-product"]},
+  {"query":"国产和进口品牌 竞品差异化 低价毛利", "expected_documents":["DEMO-competition"]},
+  {"query":"首年收入1350万元 现金跑道20个月", "expected_documents":["DEMO-finance"]},
+  {"query":"知识产权 注册风险 临床里程碑 风险预警", "expected_documents":["DEMO-risks"]},
+  {"query":"设备定价45万元 首年30台", "expected_documents":["DEMO-finance", "DEMO-market"]},
+  {"query":"每月烧钱120万元 账面现金2400万元", "expected_documents":["DEMO-finance"]},
+  {"query":"医院销售周期 远程维护服务 设备竞争", "expected_documents":["DEMO-competition", "DEMO-market"]},
+  {"query":"投后监测KPI 现金跑道不足12个月", "expected_documents":["DEMO-risks"]}
+]

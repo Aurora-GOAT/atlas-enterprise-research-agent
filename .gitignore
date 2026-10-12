@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+.env.*
+!.env.example
+workspace/
+*.log
+.DS_Store
+.idea/
+.vscode/
+artifacts/*.md
+artifacts/*.json
+!artifacts/.gitkeep

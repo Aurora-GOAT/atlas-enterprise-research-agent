@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atlas | Enterprise Research Agent</title>
+  <meta name="description" content="An evidence-first enterprise research agent: grounded retrieval, structured research, and measurable evaluation." />
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a href="/" class="brand"><span class="brand-icon">✦</span><span>atlas<span class="brand-period">.</span></span><small>AI WORKSPACE</small></a>
+    <div class="side-caption">WORKSPACE</div>
+    <nav aria-label="应用导航">
+      <button class="nav-link active" data-tab="research"><span>◈</span> 研究工作台</button>
+      <button class="nav-link" data-tab="library"><span>▤</span> 知识资料库</button>
+      <button class="nav-link" data-tab="quality"><span>◎</span> 质量评估</button>
+      <button class="nav-link" data-tab="about"><span>⌁</span> 产品说明</button>
+    </nav>
+    <div class="side-spacer"></div>
+    <div class="status-card"><div class="status-head"><span class="online-dot"></span> 本地演示已就绪</div><p>离线模式无需 API Key。上传的内容仅保存在本机工作目录。</p></div>
+    <div class="sidebar-foot">ATLAS RESEARCH AGENT <span>v0.1.0</span></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <strong id="crumb">研究工作台</strong></div><div class="top-right"><span class="chip">LOCAL FIRST</span><span class="avatar">A</span></div></header>
+    <section id="tab-research" class="tab active">
+      <div class="hero"><div class="eyebrow">ENTERPRISE INTELLIGENCE · EVIDENCE FIRST</div><h1>让企业研究，<em>有据可循。</em></h1><p>从模糊问题到结构化研究。任务规划、证据检索、来源追踪与决策报告，在一个工作台完成。</p></div>
+      <div class="workspace-grid">
+        <div class="primary">
+          <div class="panel composer"><div class="panel-heading"><h2>新建研究任务</h2><span class="label">01 / DEFINE</span></div>
+            <label for="query">你想研究什么？</label>
+            <textarea id="query" rows="4" maxlength="600" placeholder="例如：请分析 NeuroBridge Medical 的产品竞争力、市场机会、商业模式、核心风险与后续尽调重点。"></textarea>
+            <div class="suggestions"><span>试试这个：</span><button class="pill" data-suggest="分析 NeuroBridge Medical 的技术、市场、竞品、财务与投资风险，列出尽调问题。">模拟投资尽调 ↗</button><button class="pill" data-suggest="研究企业级 AI Agent 的目标客户、应用场景、商业模式及风险。">AI Agent 赛道 ↗</button></div>
+            <div class="actionbar"><label class="switch"><input type="checkbox" id="use-llm"><span class="toggle"></span><span>大模型辅助总结 <small>需 API Key</small></span></label><button id="run" class="btn-primary">开始研究 <span>→</span></button></div>
+          </div>
+          <div class="panel results" id="results" hidden>
+            <div class="panel-heading"><div><div class="label">02 / OUTPUT</div><h2>研究结果 <span id="result-mode" class="mini-badge"></span></h2></div><button id="download" class="btn-outline">↓ 导出 Markdown</button></div>
+            <div class="metrics" id="metrics"></div>
+            <div class="report-section"><div class="section-label">结构化研究报告</div><div id="report" class="report"></div></div>
+          </div>
+        </div>
+        <div class="secondary">
+          <div class="panel side-panel"><div class="panel-heading"><h2>知识上下文</h2><span class="label">KNOWLEDGE</span></div><div class="knowledge-number"><span id="doc-count">0</span><small>份已索引资料</small></div><p class="muted">研究只基于当前资料，不会自动编造来源或调用实时搜索。</p><button id="load-demo" class="btn-outline wide">＋ 加载合成演示资料</button><div class="divider"></div><div class="panel-subhead">导入自己的文件</div><label class="dropzone" for="file"><span class="upload-icon">⇧</span><strong>选择上传文件</strong><small>PDF / DOCX / TXT / MD / CSV<br>单文件最大 8MB</small></label><input id="file" type="file" accept=".pdf,.docx,.txt,.md,.csv" hidden></div>
+          <div class="panel side-panel" id="trace-panel"><div class="panel-heading"><h2>执行链路</h2><span class="label">TRACE</span></div><div id="trace"><div class="empty-state">任务开始后，显示Agent的步骤与证据检索数量。</div></div></div>
+          <div class="panel side-panel"><div class="panel-heading"><h2>商业情景工具</h2><span class="label">TOOL CALL</span></div><p class="muted">手动设置假设，调用后端计算工具；结果不作为事实证据。</p><div class="tool-grid"><label>目标客户数<input id="tool-users" type="number" min="0" value="600"></label><label>转化率（%）<input id="tool-rate" type="number" min="0" max="100" value="5"></label><label>客单价（元）<input id="tool-price" type="number" min="0" value="450000"></label></div><button class="btn-outline wide" id="tool-calculate">运行收入情景测算 →</button><div class="tool-out" id="tool-out">等待计算</div></div>
+          <div class="note"><div class="note-icon">ⓘ</div><span>演示数据均为虚构案例。系统不会自动判定投资价值，结论需人工审核。</span></div>
+        </div>
+      </div>
+    </section>
+    <section id="tab-library" class="tab"><div class="page-heading"><div class="eyebrow">SOURCE LIBRARY</div><h1>知识资料库</h1><p>可检索、可追踪的企业研究资料。离线运行，不需要上传到云端。</p></div><div class="panel"><div class="panel-heading"><h2>已导入文档</h2><button class="btn-outline" id="refresh-docs">↻ 刷新</button></div><div id="doc-list" class="doc-list"></div></div></section>
+    <section id="tab-quality" class="tab"><div class="page-heading"><div class="eyebrow">PRODUCT QUALITY</div><h1>评估，而不是猜测。</h1><p>利用已标注的10条模拟测试任务，检验知识检索是否找对来源。</p></div><div class="panel"><div class="panel-heading"><h2>检索基准评测</h2><button class="btn-primary" id="run-eval">运行评测 ↗</button></div><div id="eval-content"><div class="empty-state large">点击运行评测，即时生成 Hit@3 和 MRR 指标。<br><small>这些指标反映检索表现，不代表事实准确率。</small></div></div></div></section>
+    <section id="tab-about" class="tab"><div class="page-heading"><div class="eyebrow">PRODUCT BRIEF</div><h1>为真实工作流而设计。</h1><p>一款以来源可追溯、风险可控为优先级的企业研究Agent原型。</p></div><div class="about-grid"><div class="panel about-card"><span class="card-num">01</span><h2>Planner</h2><p>将开放式研究问题拆成技术、市场、竞争、风险和里程碑五个维度。</p></div><div class="panel about-card"><span class="card-num">02</span><h2>Retriever</h2><p>采用本地TF-IDF字符N-gram，支持中英混合检索，每段证据可回溯。</p></div><div class="panel about-card"><span class="card-num">03</span><h2>Verifier</h2><p>不为缺失信息生成肯定结论，保留来源编号与人工核查提醒。</p></div><div class="panel about-card"><span class="card-num">04</span><h2>Evaluator</h2><p>合成基准集自动测量检索命中率与倒数排名，为下一轮迭代建立依据。</p></div></div><div class="note wide-note"><div class="note-icon">✦</div><span>这是可运行的本地MVP，不是经过真实企业用户验证或可直接多租户商用的SaaS产品；需要权限管理、隐私审计、存储隔离和生产环境安全加固。</span></div></section>
+    <footer class="footer">BUILT FOR EXPLAINABLE ENTERPRISE AI <span>OPEN SOURCE MVP · 2026</span></footer>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="/assets/app.js" defer></script>
+</body>
+</html>
